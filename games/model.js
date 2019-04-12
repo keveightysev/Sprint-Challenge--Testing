@@ -11,4 +11,10 @@ const findAll = () => {
 	return db('games');
 };
 
-module.exports = { add, findAll };
+const findById = id => {
+	return db('games')
+		.where({ id })
+		.first();
+};
+
+module.exports = { add, findAll, findById };

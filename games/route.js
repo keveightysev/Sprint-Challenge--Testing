@@ -26,4 +26,18 @@ router.get('/', async (req, res) => {
 	}
 });
 
+router.get('/:id', async (req, res) => {
+	try {
+		const game = await Games.findById(req.params.id);
+		if (game) {
+			res.status(200).json(game);
+		} else {
+			res.status(404).json({ message: 'Game not found' });
+		}
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ message: 'Server error retrieving game' });
+	}
+});
+
 module.exports = router;

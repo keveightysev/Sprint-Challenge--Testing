@@ -81,4 +81,40 @@ describe('Games router', () => {
 			expect(res.body).toEqual(expect.arrayContaining([post.body]));
 		});
 	});
+
+	describe('GET /api/games/:id', () => {
+		it('should return status 200 OK', async () => {
+			const game = {
+				title: 'Pacman',
+				genre: 'Arcade',
+				releaseYear: 1980,
+			};
+			await request(server)
+				.post('/api/games/')
+				.send(game);
+			const res = await request(server).get('/api/games/1');
+			expect(res.status).toBe(200);
+		});
+
+		it('should return status 404 if user not found', async () => {
+			const res = await request(server).get('/api/games/1');
+			expect(res.status).toBe(404);
+		});
+
+		it('should return the game with the id', async () => {
+			const game = {
+				title: 'Pacman',
+				genre: 'Arcade',
+				releaseYear: 1980,
+			};
+			await request(server)
+				.post('/api/games')
+				.send(game);
+			const res = await request(server).get('/api/games/1');
+
+			expect(res.body).toEqual(
+				expect.objectContaining({ id: 1, title: 'Pacman' }),
+			);
+		});
+	});
 });

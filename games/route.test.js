@@ -55,4 +55,30 @@ describe('Games router', () => {
 			);
 		});
 	});
+
+	describe('GET /api/games', () => {
+		it('should respond with status 200 OK', async () => {
+			const res = await request(server).get('/api/games');
+			expect(res.status).toBe(200);
+		});
+
+		it('should return an empty array if there are no games', async () => {
+			const res = await request(server).get('/api/games');
+			expect(res.body).toEqual([]);
+		});
+
+		it('should return an array of objects if games are stored', async () => {
+			const game = {
+				title: 'Pacman',
+				genre: 'Arcade',
+				releaseYear: 1980,
+			};
+			const post = await request(server)
+				.post('/api/games')
+				.send(game);
+			const res = await request(server).get('/api/games');
+
+			expect(res.body).toEqual(expect.arrayContaining([post.body]));
+		});
+	});
 });

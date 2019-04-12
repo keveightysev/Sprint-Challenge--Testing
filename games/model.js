@@ -7,4 +7,8 @@ const add = async game => {
 		.first();
 };
 
-module.exports = { add };
+const findAll = () => {
+	return db('games');
+};
+
+module.exports = { add, findAll };

@@ -1,8 +1,12 @@
 const express = require('express');
 
+const games = require('./games/route.js');
+
 const server = express();
 
 server.use(express.json());
+
+server.use('/api/games', games);
 
 server.get('/', (req, res) => {
 	res.status(200).send(`

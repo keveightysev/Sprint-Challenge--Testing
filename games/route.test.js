@@ -117,4 +117,38 @@ describe('Games router', () => {
 			);
 		});
 	});
+
+	describe('DELETE /api/games/:id', () => {
+		it('should return status 404 if item not found', async () => {
+			const res = await request(server).delete('/api/games/1');
+			expect(res.status).toBe(404);
+		});
+
+		it('should return status 200 if item deleted', async () => {
+			const game = {
+				title: 'Pacman',
+				genre: 'Arcade',
+				releaseYear: 1980,
+			};
+			await request(server)
+				.post('/api/games')
+				.send(game);
+			const res = await request(server).delete('/api/games/1');
+			expect(res.status).toBe(200);
+		});
+
+		it('should actually delete the item', async () => {
+			const game = {
+				title: 'Pacman',
+				genre: 'Arcade',
+				releaseYear: 1980,
+			};
+			await request(server)
+				.post('/api/games')
+				.send(game);
+			await request(server).delete('/api/games/1');
+			const res = await request(server).get('/api/games');
+			expect(res.body).toEqual([]);
+		});
+	});
 });

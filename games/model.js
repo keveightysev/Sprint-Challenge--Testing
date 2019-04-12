@@ -17,4 +17,10 @@ const findById = id => {
 		.first();
 };
 
-module.exports = { add, findAll, findById };
+const remove = id => {
+	return db('games')
+		.where({ id })
+		.del();
+};
+
+module.exports = { add, findAll, findById, remove };
